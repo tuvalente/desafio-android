@@ -1,15 +1,22 @@
 package com.picpay.desafio.android.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.picpay.desafio.android.MainActivity
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.data.User
-import com.picpay.desafio.android.UserListDiffCallback
-import com.picpay.desafio.android.UserListItemViewHolder
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.list_item_user.view.*
 
-class UserListAdapter : RecyclerView.Adapter<UserListItemViewHolder>() {
+/**
+ * Adapter usado para listagem de [User] para o [RecyclerView] na [MainActivity].
+ */
+
+class UserListAdapter : RecyclerView.Adapter<UserListAdapter.UserListItemViewHolder>() {
 
     var users = emptyList<User>()
         set(value) {
@@ -36,4 +43,48 @@ class UserListAdapter : RecyclerView.Adapter<UserListItemViewHolder>() {
 
     override fun getItemCount(): Int = users.size
 
+    class UserListItemViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(user: User) {
+            itemView.name.text = user.name
+            itemView.username.text = user.username
+            itemView.progressBar.visibility = View.VISIBLE
+            Picasso.get()
+                .load(user.img)
+                .error(R.drawable.ic_round_account_circle)
+                .into(itemView.picture, object : Callback {
+                    override fun onSuccess() {
+                        itemView.progressBar.visibility = View.GONE
+                    }
+
+                    override fun onError(e: Exception?) {
+                        itemView.progressBar.visibility = View.GONE
+                    }
+                })
+        }
+    }
+}
+
+private class UserListDiffCallback(
+    private val oldList: List<User>,
+    private val newList: List<User>
+) : DiffUtil.Callback() {
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].username.equals(newList[newItemPosition].username)
+    }
+
+    override fun getOldListSize(): Int {
+        return oldList.size
+    }
+
+    override fun getNewListSize(): Int {
+        return newList.size
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return true
+    }
 }

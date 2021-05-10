@@ -1,4 +1,4 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.util
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,11 +10,21 @@ import androidx.annotation.RequiresApi
 
 class Utils {
     companion object {
+        /**
+         *  Verifica se o aparelho tem algum tipo de conexão com a internet disponível, caso o [Build.VERSION.SDK_INT] >= [Build.VERSION_CODES.M]
+         *  o método [isConnectedToInternetApi23] será chamado, caso contrário [isConnectedToInternetDeprecated] será invocado
+         *
+         *  @return se existe ou não conectividade com a internet
+         */
         fun isConnectedToInternet(context: Context): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return isConnectedToInternetApi23(context)
+                return isConnectedToInternetApi23(
+                    context
+                )
             } else {
-                return isConnectedToInternetDeprecated(context)
+                return isConnectedToInternetDeprecated(
+                    context
+                )
             }
         }
 
@@ -39,7 +49,7 @@ class Utils {
             return false
         }
 
-        fun isConnectedToInternetDeprecated(context: Context) : Boolean {
+        private fun isConnectedToInternetDeprecated(context: Context) : Boolean {
             var isConnected = false
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
