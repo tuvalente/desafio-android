@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimaryDark">
 
@@ -17,19 +17,65 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item_user" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contacts_empty_state"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Encontre seus amigos"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="21sp"
+            android:textStyle="bold"
+             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:textAlignment="center"
+            android:text="Você pode se juntar aos seus amigos para pagar e receber dinheiro mais rápido. Para isso, basta autorizar nosso acesso a sua agenda de contatos (nome, e-mail e telefone).\n\n Ah, se voce permitir e mudar de ideia, pode retirar a autorização nas configurações do seu celular.\n\n Se não quiser compartilhar os contatos, basta ignorar esta mensagem."
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="12sp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="32sp"
+            android:text="Autorizar agenda"
+            android:typeface="sans"
+            android:textAllCaps="false"
+            android:textColor="#F3E5F5"
+            android:background="@drawable/rounded_corners"
+            />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="150dp"
         android:layout_marginBottom="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recycler_view"
         app:layout_constraintStart_toStartOf="@+id/recycler_view"
         app:layout_constraintTop_toTopOf="@+id/recycler_view"
-        tools:context="com.picpay.desafio.android.MainActivity"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.5"
+        tools:context="com.picpay.desafio.android.MainActivity" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

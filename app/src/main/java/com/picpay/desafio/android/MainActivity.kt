@@ -33,6 +33,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         navController = Navigation.findNavController(this, R.id.nav_host)
     }
-
-
 }

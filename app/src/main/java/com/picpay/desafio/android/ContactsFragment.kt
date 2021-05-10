@@ -92,13 +92,13 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
         val message = getString(R.string.error)
 
         progress_bar.visibility = View.GONE
-        recycler_view.visibility = View.GONE
 
         Toast.makeText(activity, message, Toast.LENGTH_SHORT)
             .show()
     }
 
     private fun refreshData() {
+        hideEmptyState()
         showProgressBar()
         service.getUsers()
             .enqueue(object : Callback<List<User>> {
@@ -109,14 +109,25 @@ class ContactsFragment : Fragment(R.layout.fragment_contacts) {
                 override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
                     hideProgressBar()
                     try {
-                        Log.e("PicPayService", response.body().toString())
-                        adapter.users = response.body()!!
-                        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                        if (response.isSuccessful && response.body() != null) {
+                            adapter.users = response.body()!!
+                            adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                        } else {
+                            showEmptyState()
+                        }
                     } catch (e: Exception) {
                         showErrorMessage()
                         e.printStackTrace()
                     }
                 }
             })
+    }
+
+    private fun hideEmptyState() {
+        contacts_empty_state.visibility = View.GONE
+    }
+
+    private fun showEmptyState() {
+        contacts_empty_state.visibility = View.VISIBLE
     }
 }
